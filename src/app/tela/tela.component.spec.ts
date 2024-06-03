@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { T1C1Component } from './t1-c1.component';
+import { TelaComponent } from './tela.component';
 
-describe('T1C1Component', () => {
-  let component: T1C1Component;
-  let fixture: ComponentFixture<T1C1Component>;
+describe('TelaComponent', () => {
+  let component: TelaComponent;
+  let fixture: ComponentFixture<TelaComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ T1C1Component ]
+      declarations: [ TelaComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(T1C1Component);
+    fixture = TestBed.createComponent(TelaComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
