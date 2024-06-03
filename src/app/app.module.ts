@@ -33,6 +33,9 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { AnexoService, PastaService } from './app.service';
 import { Validate_Service } from 'src/services/Validate_Service';
 import { TelaComponent } from './tela/tela.component';
+import { DocumentosComponent } from './tela/documentos/documentos.component';
+import { AssinantesComponent } from './tela/assinantes/assinantes.component';
+import { CardModule } from 'primeng/card';
 
 export const HttpLoaderFactory = (httpClient: HttpClient) =>
   new TranslateHttpLoader(httpClient, 'assets/i18n/');
@@ -41,6 +44,8 @@ export const HttpLoaderFactory = (httpClient: HttpClient) =>
   declarations: [
     AppComponent,
     TelaComponent,
+    DocumentosComponent,
+    AssinantesComponent,
   ],
   imports: [
     BrowserAnimationsModule,
@@ -66,6 +71,7 @@ export const HttpLoaderFactory = (httpClient: HttpClient) =>
     ProgressSpinnerModule,
     FileUploadModule,
     RadioButtonModule,
+    CardModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
