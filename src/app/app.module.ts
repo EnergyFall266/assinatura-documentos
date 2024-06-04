@@ -37,7 +37,9 @@ import { DocumentosComponent } from './tela/documentos/documentos.component';
 import { AssinantesComponent } from './tela/assinantes/assinantes.component';
 import { CardModule } from 'primeng/card';
 import { TabViewModule } from 'primeng/tabview';
-
+import { AvatarModule } from 'primeng/avatar';
+import { ToastModule } from 'primeng/toast';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 export const HttpLoaderFactory = (httpClient: HttpClient) =>
   new TranslateHttpLoader(httpClient, 'assets/i18n/');
 
@@ -74,6 +76,9 @@ export const HttpLoaderFactory = (httpClient: HttpClient) =>
     RadioButtonModule,
     CardModule,
     TabViewModule,
+    AvatarModule,
+    ToastModule,
+    ScrollPanelModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
