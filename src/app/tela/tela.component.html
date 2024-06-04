@@ -1,22 +1,18 @@
-<div class=" h-screen overflow-hidden">
-
-    <div class="grid nested-grid ">
-        <div class="col-4 max-h-screen">
-            <app-documentos></app-documentos>
+<div class="grid  max-h-screen ">
+  <div class="col-4 h-screen">
+    <app-documentos></app-documentos>
   </div>
-  <div class="col-8 max-h-screen">
-      <div class="grid h-full">
-          <div class="col-12">
-              <app-assinantes></app-assinantes>
-            </div>
-            <div class="col-12  ">
-                <div class="flex justify-content-end">
-                    
-                    <p-button icon="pi pi-iconName" label="Concluir"></p-button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+  <div class="col-8 max-h-screen pl-0 ">
+    <div style="height: 92vh;">
 
+        <app-assinantes></app-assinantes>
+    </div>
+     
+     
+        <div class="flex justify-content-end align-self-end">
+          <p-button icon="pi pi-iconName" class="" label="Concluir"></p-button>
+        </div>
+      
+   
+  </div>
 </div>
