@@ -40,6 +40,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { AvatarModule } from 'primeng/avatar';
 import { ToastModule } from 'primeng/toast';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+
 export const HttpLoaderFactory = (httpClient: HttpClient) =>
   new TranslateHttpLoader(httpClient, 'assets/i18n/');
 
