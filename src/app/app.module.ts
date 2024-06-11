@@ -33,13 +33,14 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { AnexoService, PastaService } from './app.service';
 import { Validate_Service } from 'src/services/Validate_Service';
 import { TelaComponent } from './tela/tela.component';
-import { DocumentosComponent } from './tela/documentos/documentos.component';
-import { AssinantesComponent } from './tela/assinantes/assinantes.component';
+import { BuscaAssinantesComponent } from './tela/busca-assinantes/busca-assinantes.component';
+import { DocumentosAssinantesComponent } from './tela/documentos-assinantes/documentos-assinantes.component';
 import { CardModule } from 'primeng/card';
 import { TabViewModule } from 'primeng/tabview';
 import { AvatarModule } from 'primeng/avatar';
 import { ToastModule } from 'primeng/toast';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+
 
 export const HttpLoaderFactory = (httpClient: HttpClient) =>
   new TranslateHttpLoader(httpClient, 'assets/i18n/');
@@ -48,8 +49,8 @@ export const HttpLoaderFactory = (httpClient: HttpClient) =>
   declarations: [
     AppComponent,
     TelaComponent,
-    DocumentosComponent,
-    AssinantesComponent,
+    BuscaAssinantesComponent,
+    DocumentosAssinantesComponent,
   ],
   imports: [
     BrowserAnimationsModule,

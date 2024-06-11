@@ -3,11 +3,11 @@ import { MessageService } from 'primeng/api';
 import { deleteDocument } from 'prisma_prismafunctions';
 
 @Component({
-  selector: 'app-documentos',
-  templateUrl: './documentos.component.html',
-  styleUrls: ['./documentos.component.scss']
+  selector: 'app-busca-assinantes',
+  templateUrl: './busca-assinantes.component.html',
+  styleUrls: ['./busca-assinantes.component.scss']
 })
-export class DocumentosComponent {
+export class BuscaAssinantesComponent {
   documents: any[] = [
     {
       name: 'Document 1',
@@ -60,8 +60,24 @@ export class DocumentosComponent {
       type: 'PDF'
     }
   ];
-  constructor(private messageService: MessageService) { }
 
+  products: any[] = [
+    {name:"produto 1", category:"categoria 1"},
+    {name:"produto 2", category:"categoria 2"},
+    {name:"produto 3", category:"categoria 3"},
+    {name:"produto 4", category:"categoria 4"},
+    {name:"produto 5", category:"categoria 5"},
+    {name:"produto 6", category:"categoria 6"},
+    {name:"produto 7", category:"categoria 7"},
+    {name:"produto 8", category:"categoria 8"},
+    {name:"produto 9", category:"categoria 9"},
+  ]
+  selectedProduct: any = [];
+  constructor(private messageService: MessageService) { }
+  notificar: boolean = false;
+  visualizacao: boolean = false;
+  localizacao: boolean = false;
+  value:string = '';
 
   deleteDocument(document: any) {
     this.messageService.add({ severity: 'info', summary: 'Documento Excluido', detail: document.name });

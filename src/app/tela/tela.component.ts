@@ -8,4 +8,7 @@ import { VP_BPM } from 'src/beans/VP_BPM';
 })
 export class TelaComponent {
   @Input() vp!: VP_BPM;
+  notificar: boolean = false;
+  visualizacao: boolean = false;
+  localizacao: boolean = false;
 }

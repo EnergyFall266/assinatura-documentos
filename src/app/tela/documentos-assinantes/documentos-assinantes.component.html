@@ -1,0 +1,95 @@
+<div class="max-h-full">
+  <div class="mb-2">
+    <p-card header="Documentos" styleClass="h-full" >
+      <div class="flex justify-content-end">
+        <p-fileUpload
+        styleClass="p-button-rounded"
+          mode="basic"
+          name="demo[]"
+          chooseIcon="pi pi-file"
+          url="https://www.primefaces.org/cdn/api/upload.php"
+          accept=".pdf"
+          (onUpload)="onBasicUploadAuto($event)"
+          [auto]="true"
+          [multiple]="true"
+        ></p-fileUpload>
+      </div>
+      <div class=" -mr-3">
+        <p-scrollPanel [style]="{ width: '100%', height: '30vh' }">
+          <p-table [value]="documents" [scrollable]="true">
+            <ng-template pTemplate="body" let-document>
+              <tr>
+                <td>
+                  <i class="pi pi-file-pdf" style="font-size: 1.5rem;"></i>
+                </td>
+                <td>{{ document.name }}</td>
+                <td>{{ document.size }}</td>
+                <td>{{ document.quantity }}</td>
+                <td class="flex justify-content-end">
+                  <p-button icon="pi pi-trash" styleClass="p-button-rounded p-button-danger p-button-text" (click)="deleteDocument(document)"></p-button>
+                
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-scrollPanel>
+      </div>
+    </p-card>
+   
+  </div>
+  <div>
+    <p-card>
+      <p-toast></p-toast>
+      <div class="-mr-3">
+        <p-scrollPanel [style]="{ width: '100%', height: '40vh' }">
+          <p-table [value]="signers" [scrollable]="true">
+            <ng-template pTemplate="body" let-signer>
+              <tr>
+                <td>
+                  <p-avatar
+                    icon="pi pi-user"
+                    styleClass="mr-2"
+                    shape="circle"
+                    size="large"
+                  ></p-avatar>
+                </td>
+                <td><div class="font-bold">
+
+                  {{ signer.name }}
+                </div>
+                <div class="text-sm">
+                  {{ signer.email }}
+                </div>
+              </td>
+                
+                <td>
+                  <p>Ação do Signatário:</p>
+                  <p-dropdown
+                    [options]="acaoSignatario"
+                    [(ngModel)]="signer.acaoSelecionada"
+                  ></p-dropdown>
+                </td>
+                <td>
+                  <p>Assinatura com Certificado:</p>
+                  <p-dropdown
+                    [options]="assinaturaCertificado"
+                    [(ngModel)]="signer.assinaturaSelecionada"
+                    
+                  ></p-dropdown>
+                </td>
+                <td >
+                  <p-button
+                    icon="pi pi-trash"
+                    styleClass="p-button-rounded p-button-danger p-button-text"
+                    (click)="deleteSigner(signer)"
+                  ></p-button>
+                </td>
+               
+              </tr>
+            </ng-template>
+          </p-table>
+        </p-scrollPanel>
+      </div>
+    </p-card>
+  </div>
+</div>
