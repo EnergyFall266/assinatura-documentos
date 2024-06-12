@@ -8,8 +8,11 @@
   .p-datatable .p-datatable-header {
     background: transparent;
   }
-  .p-input-icon-left > .p-inputtext {
-    width: 29.5rem;
+  .p-card .p-card-footer {
+    padding: 0;
+  }
+  .p-inputtext {
+    width: 100%;
   }
   }
   .prevent-select {

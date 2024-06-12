@@ -1,7 +1,8 @@
 <div class="h-full">
-  <p-card header="Assinantes">
-    <div class="flex gap-3">
-      <div class="flex align-content-center gap-2">
+  <p-card  >
+    
+    <div class="flex gap-3 align-items-center my-5 w-full">
+      <div class="flex align-content-center align-items-center gap-2">
         <p-inputSwitch
           inputId="notificar"
           [(ngModel)]="notificar"
@@ -13,7 +14,7 @@
           >Notificar Autor</label
         >
       </div>
-      <div class="flex align-content-center gap-2">
+      <div class="flex align-content-center align-items-center gap-2">
         <p-inputSwitch
           inputId="visualizacao"
           [(ngModel)]="visualizacao"
@@ -25,7 +26,7 @@
           >Visualização Obrigatória</label
         >
       </div>
-      <div class="flex align-content-center gap-2">
+      <div class="flex align-content-center align-items-center gap-2">
         <p-inputSwitch
           inputId="localizacao"
           [(ngModel)]="localizacao"
@@ -38,94 +39,86 @@
         >
       </div>
     </div>
+    <div class=" flex justify-content-center ">
+
+      <h3 class="my-1" >Seleção do(s) Signatário(s)</h3>
+      </div>
     <p-tabView>
       <p-tabPanel header="Usuário Interno">
-        <div class="p-inputgroup">
-          <input type="text" pInputText placeholder="Keyword" />
-          <button
-            type="button"
-            pButton
-            icon="pi pi-search"
-            styleClass="p-button-warn"
-          ></button>
-        </div>
-
         <p-toast></p-toast>
-
         <p-table
           #dt
-          [value]="products"
+          [value]="usuariosInternos"
           [rows]="6"
           [paginator]="true"
-          [globalFilterFields]="[
-            'name',
-            'category',
-          ]"
+          [globalFilterFields]="['name', 'category']"
           selectionMode="single"
-          [(selection)]="selectedProduct"
+          [(selection)]="selectedUsuario"
           [rowHover]="true"
-   
+          dataKey="name"
         >
           <ng-template pTemplate="caption">
             <div class="flex align-items-center">
-              <span class="p-input-icon-left">
+              <span class="p-input-icon-left w-full">
                 <i class="pi pi-search"></i>
                 <input
                   pInputText
                   type="text"
-                  (input)="dt.filterGlobal($any($event.target).value, 'contains')"
-                  placeholder="Search..."
+                  (input)="
+                    dt.filterGlobal($any($event.target).value, 'contains')
+                  "
+                  placeholder="Pesquisar..."
+                  class="w-full"
                 />
               </span>
             </div>
           </ng-template>
 
+          <ng-template pTemplate="body" let-usuario>
+            <tr [pSelectableRow]="usuario">
+              <td>{{ usuario.name }}</td>
 
-          <ng-template pTemplate="body" let-product>
-            <tr>
-              <td>{{ product.name }}</td>
-
-              <td>{{ product.category }}</td>
+              <td>{{ usuario.email }}</td>
             </tr>
           </ng-template>
         </p-table>
       </p-tabPanel>
-      <p-tabPanel
-        header="Usuario Externo"
-        class="flex justify-content-center align-content-center h-full"
-      >
-        <div class="flex flex-column gap-2">
-          <label for="username">Username</label>
-          <input
-            pInputText
-            id="username"
-            aria-describedby="username-help"
-            [(ngModel)]="value"
-          />
-        </div>
-        <div class="flex flex-column gap-2">
-          <label for="username">Username</label>
-          <input
-            pInputText
-            id="username"
-            aria-describedby="username-help"
-            [(ngModel)]="value"
-          />
-        </div>
-        <div class="flex flex-column gap-2">
-          <label for="username">Username</label>
-          <input
-            pInputText
-            id="username"
-            aria-describedby="username-help"
-            [(ngModel)]="value"
-          />
+      <p-tabPanel header="Usuario Externo">
+        <div style="height: 30.3rem">
+          <div class="h-full flex flex-column justify-content-center align-items-center gap-3">
+            <div class="flex flex-column gap-3 w-9">
+              <span class="font-bold block mb-1">Nome:</span>
+              <input
+                pInputText
+                aria-describedby="username-help"
+                [(ngModel)]="nomeExterno"
+              />
+            </div>
+            <div class="flex flex-column gap-3  w-9">
+              <span class="font-bold block mb-1">Email:</span>
+              <input
+                required="true"
+                pInputText
+                aria-describedby="username-help"
+                [(ngModel)]="emailExterno"
+              />
+            </div>
+            <div class="flex flex-column gap-3  w-9">
+              <span class="font-bold block mb-1">Telefone:</span>
+              <p-inputMask
+                class="w-full"
+                mask="(99) 99999-9999"
+                [(ngModel)]="telefoneExterno"
+                placeholder="(00) 00000-0000"
+              ></p-inputMask>
+            </div>
+          </div>
         </div>
       </p-tabPanel>
     </p-tabView>
     <p-footer>
       <div class="flex justify-content-end">
-        <p-button icon="pi pi-iconName" label="Adicionar"></p-button>
+        <p-button styleClass="p-button-rounded" icon="pi pi-iconName" label="Adicionar"></p-button>
       </div>
     </p-footer>
   </p-card>
