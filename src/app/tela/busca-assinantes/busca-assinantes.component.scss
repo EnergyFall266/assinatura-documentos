@@ -1,7 +1,14 @@
 :host ::ng-deep {
+  .card{
     .p-card .p-card-body {
       height: 98vh;
+  }
+}
+  .interCard{
+    .p-card .p-card-body {
+      height: 24rem;
     }
+  }
     .p-card .p-card-content {
       padding:0;
   }

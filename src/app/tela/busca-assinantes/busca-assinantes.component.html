@@ -1,7 +1,7 @@
-<div class="h-full">
-  <p-card  >
+<div class="h-full ">
+  <p-card  class="card ">
     
-    <div class="flex gap-3 align-items-center my-5 w-full">
+    <div class="flex gap-3 align-items-center mb-4 w-full">
       <div class="flex align-content-center align-items-center gap-2">
         <p-inputSwitch
           inputId="notificar"
@@ -41,7 +41,7 @@
     </div>
     <div class=" flex justify-content-center ">
 
-      <h3 class="my-1" >Seleção do(s) Signatário(s)</h3>
+      <h3 class="my-2" >Seleção do(s) Signatário(s)</h3>
       </div>
     <p-tabView>
       <p-tabPanel header="Usuário Interno">
@@ -49,7 +49,7 @@
         <p-table
           #dt
           [value]="usuariosInternos"
-          [rows]="6"
+          [rows]="7"
           [paginator]="true"
           [globalFilterFields]="['name', 'category']"
           selectionMode="single"
@@ -84,8 +84,9 @@
         </p-table>
       </p-tabPanel>
       <p-tabPanel header="Usuario Externo">
-        <div style="height: 30.3rem">
-          <div class="h-full flex flex-column justify-content-center align-items-center gap-3">
+        <div style="height: 30.8rem " class="flex align-items-center" >
+          <!-- <p-card class="h-10 interCard w-full"> -->
+          <div class="h-full w-full flex flex-column justify-content-center align-items-center gap-3">
             <div class="flex flex-column gap-3 w-9">
               <span class="font-bold block mb-1">Nome:</span>
               <input
@@ -113,11 +114,12 @@
               ></p-inputMask>
             </div>
           </div>
+          <!-- </p-card> -->
         </div>
       </p-tabPanel>
     </p-tabView>
     <p-footer>
-      <div class="flex justify-content-end">
+      <div class="flex justify-content-end ">
         <p-button styleClass="p-button-rounded" icon="pi pi-iconName" label="Adicionar"></p-button>
       </div>
     </p-footer>

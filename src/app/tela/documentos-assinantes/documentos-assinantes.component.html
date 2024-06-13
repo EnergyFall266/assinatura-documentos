@@ -1,34 +1,35 @@
 <div class="max-h-full">
   <div class="mb-2">
-    <p-card >
+    <p-card class="shadow-8">
       <div class="flex justify-content-center">
         <h3 class="my-1">Documentos</h3>
       </div>
       <div class="flex justify-content-end -mt-3 mb-2">
         <p-fileUpload
+        #fileUpload
           styleClass="p-button-rounded"
           mode="basic"
           name="demo[]"
           chooseIcon="pi pi-plus"
-          url="https://www.primefaces.org/cdn/api/upload.php"
           accept=".pdf"
           chooseLabel="Documento"
-          (onUpload)="onBasicUploadAuto($event)"
+          (uploadHandler)="onBasicUploadAuto($event,fileUpload)"
           [auto]="true"
           [multiple]="true"
+          [customUpload]="true"
+          
         ></p-fileUpload>
       </div>
       <div class="-mr-3">
-        <p-scrollPanel [style]="{ width: '100%', height: '30vh' }" class="">
-          <p-table [value]="documents" [scrollable]="true">
+        <p-scrollPanel [style]="{ width: '100%', height: '30vh' }" >
+          <p-table [value]="listaDeArquivos" [scrollable]="true">
             <ng-template pTemplate="body" let-document>
               <tr>
                 <td>
                   <i class="pi pi-file-pdf" style="font-size: 1.5rem"></i>
                 </td>
                 <td>{{ document.name }}</td>
-                <td>{{ document.size }}</td>
-                <td>{{ document.quantity }}</td>
+                <td>{{ ((document.size)/1024).toFixed(1) +" KB" }}</td>
                 <td class="flex justify-content-end">
                   <p-button
                     icon="pi pi-trash"

@@ -1,10 +1,10 @@
 <div class="grid max-h-screen">
-  <div class="col-4 h-screen pt-1">
-    <app-busca-assinantes></app-busca-assinantes>
+  <div class="col-4 h-screen pt-2">
+    <app-busca-assinantes [vp]="vp"></app-busca-assinantes>
   </div>
   <div class="col-8 max-h-screen pl-0">
     <div style="height: 92vh">
-      <app-documentos-assinantes></app-documentos-assinantes>
+      <app-documentos-assinantes [vp]="vp"></app-documentos-assinantes>
     </div>
     
     <div class="col flex justify-content-end -mt-2 mr-4">

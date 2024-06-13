@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { deleteDocument } from 'prisma_prismafunctions';
+import { VP_BPM } from 'src/beans/VP_BPM';
 
 @Component({
   selector: 'app-busca-assinantes',
@@ -8,7 +9,7 @@ import { deleteDocument } from 'prisma_prismafunctions';
   styleUrls: ['./busca-assinantes.component.scss']
 })
 export class BuscaAssinantesComponent {
-  
+  @Input() vp!: VP_BPM;
 
   usuariosInternos: any[] = [
     {
