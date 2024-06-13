@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MessageService } from 'primeng/api';
+import { EditableColumn } from 'primeng/table';
 import { VP_BPM } from 'src/beans/VP_BPM';
 
 @Component({
@@ -31,58 +32,7 @@ export class DocumentosAssinantesComponent {
       email: 'signer5@hotmail.com',
     },
   ];
-  documents: any[] = [
-    {
-      name: 'Document 1',
-      size: '50kb',
-      type: 'PDF',
-    },
-    {
-      name: 'Document 2',
-      size: '150kb',
-      type: 'PDF',
-    },
-    {
-      name: 'Document 3',
-      size: '100kb',
-      type: 'PDF',
-    },
-    {
-      name: 'Document 4',
-      size: '200kb',
-      type: 'PDF',
-    },
-    {
-      name: 'Document 5',
-      size: '250kb',
-      type: 'PDF',
-    },
-    {
-      name: 'Document 6',
-      size: '80kb',
-      type: 'PDF',
-    },
-    {
-      name: 'Document 7',
-      size: '40kb',
-      type: 'PDF',
-    },
-    {
-      name: 'Document 8',
-      size: '300kb',
-      type: 'PDF',
-    },
-    {
-      name: 'Document 9',
-      size: '75kb',
-      type: 'PDF',
-    },
-    {
-      name: 'Document 10',
-      size: '65kb',
-      type: 'PDF',
-    },
-  ];
+
   notificar: boolean = false;
   visualizacao: boolean = false;
   localizacao: boolean = false;
@@ -102,6 +52,8 @@ export class DocumentosAssinantesComponent {
   constructor(private messageService: MessageService) {}
 
   deleteDocument(document: any) {
+    this.listaDeArquivos.includes(document.name);
+
     this.messageService.add({
       severity: 'info',
       summary: 'Documento Excluido',
@@ -109,16 +61,42 @@ export class DocumentosAssinantesComponent {
     });
   }
   onBasicUploadAuto(event: any, fileUpload: any) {
-    console.log(event);
+    console.log(this.listaDeArquivos.length);
+    
+    if (this.listaDeArquivos.length === 0) {
+      console.log("vazio");
+      
+      for (let file of event.files) {
+        this.listaDeArquivos.push(file);
+      }
+      fileUpload.clear();
+    } else {
+      
+      console.log(this.listaDeArquivos);
+      
+      for (let file of event.files) {
+      this.listaDeArquivos.forEach((element) => {
+        if (element.name == file.name) {
+          console.log(element.name);
 
-    for (let file of event.files) {
-      this.listaDeArquivos.push(file);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Erro',
+            detail: 'Arquivo já adicionado',
+          });
+          
+        } else {
+          this.listaDeArquivos.push(file);
+        };
+        })
+      }
+    
+      console.log(this.listaDeArquivos);
+      console.log(event.files);
+      fileUpload.clear();
     }
-
-    console.log(this.listaDeArquivos);
-    console.log(event.files);
-    fileUpload.clear();
   }
+  
   deleteSigner(signer: any) {
     this.messageService.add({
       severity: 'info',
