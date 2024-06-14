@@ -62,41 +62,51 @@ export class DocumentosAssinantesComponent {
   }
   onBasicUploadAuto(event: any, fileUpload: any) {
     console.log(this.listaDeArquivos.length);
-    
+    let adicionado: boolean = false;
     if (this.listaDeArquivos.length === 0) {
-      console.log("vazio");
-      
+      console.log('vazio');
+
       for (let file of event.files) {
         this.listaDeArquivos.push(file);
       }
       fileUpload.clear();
     } else {
-      
       console.log(this.listaDeArquivos);
-      
-      for (let file of event.files) {
-      this.listaDeArquivos.forEach((element) => {
-        if (element.name == file.name) {
-          console.log(element.name);
 
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Erro',
-            detail: 'Arquivo já adicionado',
+      for (let file of event.files) {
+        console.log(file.name);
+
+        adicionado = false;
+        this.listaDeArquivos.forEach((element) => {
+          if (element.name == file.name) {
+            adicionado = true;
+            console.log(element.name);
+
+
+          }
           });
-          
-        } else {
-          this.listaDeArquivos.push(file);
-        };
-        })
+          if(adicionado){
+            this.messageService.add({
+              severity: 'warn',
+              summary: 'Aviso',
+              detail: 'Arquivo '+ file.name + ' já adicionado',
+            });
+
+            continue
+          }
+
+
+             else {
+              this.listaDeArquivos.push(file);
+            }
       }
-    
+
       console.log(this.listaDeArquivos);
       console.log(event.files);
       fileUpload.clear();
     }
   }
-  
+
   deleteSigner(signer: any) {
     this.messageService.add({
       severity: 'info',
