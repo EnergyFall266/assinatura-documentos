@@ -10,28 +10,6 @@ import { VP_BPM } from 'src/beans/VP_BPM';
 })
 export class DocumentosAssinantesComponent {
   @Input() vp!: VP_BPM;
-  signers: any[] = [
-    {
-      name: 'Signer 1',
-      email: 'signer1@hotmail.com',
-    },
-    {
-      name: 'Signer 2',
-      email: 'signer2@hotmail.com',
-    },
-    {
-      name: 'Signer 3',
-      email: 'signer3@hotmail.com',
-    },
-    {
-      name: 'Signer 4',
-      email: 'signer4@hotmail.com',
-    },
-    {
-      name: 'Signer 5',
-      email: 'signer5@hotmail.com',
-    },
-  ];
 
   notificar: boolean = false;
   visualizacao: boolean = false;
@@ -47,12 +25,13 @@ export class DocumentosAssinantesComponent {
   assinaturaCertificado: string[] = ['Desabilitado', 'Opcional', 'Obrigatório'];
   assinaturaSelecionada: string = '';
   value: string = '';
-  listaDeArquivos: any[] = [];
 
   constructor(private messageService: MessageService) {}
 
   deleteDocument(document: any) {
-    this.listaDeArquivos.includes(document.name);
+    this.vp.listaArquivos = this.vp.listaArquivos.filter(
+      (doc) => doc.name !== document.name
+    );
 
     this.messageService.add({
       severity: 'info',
@@ -61,48 +40,39 @@ export class DocumentosAssinantesComponent {
     });
   }
   onBasicUploadAuto(event: any, fileUpload: any) {
-    console.log(this.listaDeArquivos.length);
+    console.log(this.vp.listaArquivos.length);
     let adicionado: boolean = false;
-    if (this.listaDeArquivos.length === 0) {
+    if (this.vp.listaArquivos.length === 0) {
       console.log('vazio');
 
       for (let file of event.files) {
-        this.listaDeArquivos.push(file);
+        this.vp.listaArquivos.push(file);
       }
       fileUpload.clear();
     } else {
-      console.log(this.listaDeArquivos);
-
       for (let file of event.files) {
         console.log(file.name);
 
         adicionado = false;
-        this.listaDeArquivos.forEach((element) => {
+        this.vp.listaArquivos.forEach((element) => {
           if (element.name == file.name) {
             adicionado = true;
             console.log(element.name);
-
-
           }
+        });
+        if (adicionado) {
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Aviso',
+            detail: 'Arquivo ' + file.name + ' já adicionado',
           });
-          if(adicionado){
-            this.messageService.add({
-              severity: 'warn',
-              summary: 'Aviso',
-              detail: 'Arquivo '+ file.name + ' já adicionado',
-            });
 
-            continue
-          }
-
-
-             else {
-              this.listaDeArquivos.push(file);
-            }
+          continue;
+        } else {
+          this.vp.listaArquivos.push(file);
+        }
       }
 
-      console.log(this.listaDeArquivos);
-      console.log(event.files);
       fileUpload.clear();
     }
   }
@@ -110,8 +80,11 @@ export class DocumentosAssinantesComponent {
   deleteSigner(signer: any) {
     this.messageService.add({
       severity: 'info',
-      summary: 'Assinante Deletado',
+      summary: 'Signatario Deletado',
       detail: signer.name,
     });
+    this.vp.signatarios = this.vp.signatarios.filter(
+      (signatario) => signatario.email !== signer.email
+    );
   }
 }

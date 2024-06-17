@@ -6,7 +6,7 @@ import { VP_BPM } from 'src/beans/VP_BPM';
 @Component({
   selector: 'app-busca-assinantes',
   templateUrl: './busca-assinantes.component.html',
-  styleUrls: ['./busca-assinantes.component.scss']
+  styleUrls: ['./busca-assinantes.component.scss'],
 })
 export class BuscaAssinantesComponent {
   @Input() vp!: VP_BPM;
@@ -38,22 +38,56 @@ export class BuscaAssinantesComponent {
     },
     {
       name: 'Signer 7',
-      email: 'signer7@hotmail.com'
+      email: 'signer7@hotmail.com',
     },
     {
       name: 'Signer 8',
-      email: 'signer8@hotmail.com' 
+      email: 'signer8@hotmail.com',
     },
-
-  ]
+  ];
   selectedUsuario: any = [];
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService) {}
   notificar: boolean = false;
   visualizacao: boolean = false;
   localizacao: boolean = false;
-  nomeExterno:string = "";
-  emailExterno:string = "";
-  telefoneExterno:string = "";
+  nomeExterno: string = '';
+  emailExterno: string = '';
+  telefoneExterno: string = '';
 
-  
+  adicionarExterno() {
+    if (this.vp.signatarios.length == 0) {
+      this.vp.signatarios.push({
+        nome: this.nomeExterno,
+        email: this.emailExterno,
+        telefone: this.telefoneExterno,
+      });
+    } else {
+      let adicionado: boolean = false;
+      this.vp.signatarios.forEach((element) => {
+        if (element.email == this.emailExterno) {
+          adicionado = true;
+        }
+      });
+      if (adicionado) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Aviso',
+          detail: 'Signatário ' + this.emailExterno + ' já adicionado',
+        });
+      } else {
+        this.vp.signatarios.push({
+          nome: this.nomeExterno,
+          email: this.emailExterno,
+          telefone: this.telefoneExterno,
+        });
+      }
+    }
+  }
+  adicionarInterno() {
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Adicionado',
+      detail: 'Adicionado',
+    });
+  }
 }

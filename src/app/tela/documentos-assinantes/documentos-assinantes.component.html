@@ -1,108 +1,110 @@
 <div class="max-h-full">
   <div class="mb-2">
     <p-card class="shadow-8">
-      <div class="flex justify-content-center">
-        <h3 class="my-1">Documentos</h3>
-      </div>
-      <div class="flex justify-content-end -mt-3 mb-2">
+      <div class="flex justify-content-end mb-2">
         <p-fileUpload
-        #fileUpload
+          #fileUpload
           styleClass="p-button-rounded"
           mode="basic"
           name="demo[]"
           chooseIcon="pi pi-plus"
           accept=".pdf"
           chooseLabel="Documento"
-          (uploadHandler)="onBasicUploadAuto($event,fileUpload)"
+          (uploadHandler)="onBasicUploadAuto($event, fileUpload)"
           [auto]="true"
           [multiple]="true"
           [customUpload]="true"
-          
         ></p-fileUpload>
       </div>
       <div class="-mr-3">
-        <p-scrollPanel [style]="{ width: '100%', height: '30vh' }" >
-          <div *ngIf="listaDeArquivos.length!=0; else vazio">
-
-          <p-table [value]="listaDeArquivos" [scrollable]="true">
-            <ng-template pTemplate="body" let-document>
-              <tr>
-                <td>
-                  <i class="pi pi-file-pdf" style="font-size: 1.5rem"></i>
-                </td>
-                <td>{{ document.name }}</td>
-                <td>{{ ((document.size)/1024).toFixed(1) +" KB" }}</td>
-                <td class="flex justify-content-end">
-                  <p-button
-                    icon="pi pi-trash"
-                    styleClass="p-button-rounded p-button-danger p-button-text"
-                    (click)="deleteDocument(document)"
-                  ></p-button>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
-        </div>
-<ng-template #vazio>
-  <div class="flex justify-content-center align-items-center h-full">
-    <p class="font-bold">Nenhum Documento Adicionado!</p>
-  </div>
-
-</ng-template>
+        <p-scrollPanel [style]="{ width: '100%', height: '34vh' }">
+          <div *ngIf="vp.listaArquivos.length !== 0; else documentoVazio">
+            <p-table [value]="vp.listaArquivos" [scrollable]="true">
+              <ng-template pTemplate="body" let-document>
+                <tr>
+                  <td>
+                    <i class="pi pi-file-pdf" style="font-size: 1.5rem"></i>
+                  </td>
+                  <td>{{ document.name }}</td>
+                  <td>{{ (document.size / 1024).toFixed(1) + " KB" }}</td>
+                  <td class="flex justify-content-end">
+                    <p-button
+                      icon="pi pi-trash"
+                      styleClass="p-button-rounded p-button-danger p-button-text"
+                      (click)="deleteDocument(document)"
+                    ></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+          <ng-template #documentoVazio>
+            <div class="flex justify-content-center align-items-center h-full">
+              <p class="font-bold">Nenhum Documento Adicionado!</p>
+            </div>
+          </ng-template>
         </p-scrollPanel>
       </div>
     </p-card>
   </div>
   <div>
     <p-card>
-   
       <p-toast></p-toast>
       <div class="-mr-3">
         <p-scrollPanel [style]="{ width: '100%', height: '40vh' }">
-          <p-table [value]="signers" [scrollable]="true">
-            <ng-template pTemplate="body" let-signer>
-              <tr>
-                <td>
-                  <p-avatar
-                    icon="pi pi-user"
-                    styleClass="mr-2"
-                    shape="circle"
-                    size="large"
-                  ></p-avatar>
-                </td>
-                <td>
-                  <div class="font-bold">
-                    {{ signer.name }}
-                  </div>
-                  <div class="text-sm">
-                    {{ signer.email }}
-                  </div>
-                </td>
+          <div *ngIf="vp.signatarios.length !== 0; else signatarioVazio">
+            <p-table [value]="vp.signatarios" [scrollable]="true">
+              <ng-template pTemplate="body" let-signer>
+                <tr>
+                  <td>
+                    <p-avatar
+                      icon="pi pi-user"
+                      styleClass="mr-2"
+                      shape="circle"
+                      size="large"
+                    ></p-avatar>
+                  </td>
+                  <td>
+                    <div class="font-bold">
+                      {{ signer.nome }}
+                    </div>
+                    <div class="text-sm">
+                      {{ signer.email }}
+                    </div>
+                  </td>
 
-                <td>
-                  <p>Ação do Signatário:</p>
-                  <p-dropdown
-                    [options]="acaoSignatario"
-                    [(ngModel)]="signer.acaoSelecionada"
-                  ></p-dropdown>
-                </td>
-                <td>
-                  <p>Assinatura com Certificado:</p>
-                  <p-dropdown
-                    [options]="assinaturaCertificado"
-                    [(ngModel)]="signer.assinaturaSelecionada"
-                  ></p-dropdown>
-                </td>
-                <td>
-                  <p-button
-                    icon="pi pi-trash"
-                    styleClass="p-button-rounded p-button-danger p-button-text"
-                    (click)="deleteSigner(signer)"
-                  ></p-button>
-                </td>
-              </tr>
-            </ng-template>
-          </p-table>
+                  <td>
+                    <p>Ação do Signatário:</p>
+                    <p-dropdown
+                      [options]="acaoSignatario"
+                      [(ngModel)]="signer.acaoSelecionada"
+                      appendTo="body"
+                    ></p-dropdown>
+                  </td>
+                  <td>
+                    <p>Assinatura com Certificado:</p>
+                    <p-dropdown
+                      [options]="assinaturaCertificado"
+                      [(ngModel)]="signer.assinaturaSelecionada"
+                      appendTo="body"
+                    ></p-dropdown>
+                  </td>
+                  <td>
+                    <p-button
+                      icon="pi pi-trash"
+                      styleClass="p-button-rounded p-button-danger p-button-text"
+                      (click)="deleteSigner(signer)"
+                    ></p-button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+          <ng-template #signatarioVazio>
+            <div class="flex justify-content-center align-items-center h-full">
+              <p class="font-bold">Nenhum Signatário Adicionado!</p>
+            </div>
+          </ng-template>
         </p-scrollPanel>
       </div>
     </p-card>

@@ -8,6 +8,11 @@ export interface ResponseLoadData {
   tabs: number[];
   vp: VP_BPM;
 }
+export interface signatarios {
+  nome: string;
+  email: string;
+  telefone: string;
+}
 
 export class AnexoFile {
   file: File;
@@ -22,6 +27,8 @@ export class AnexoFile {
 export class VP_BPM {
   public overlay: boolean = true;
   public Buscando_WS: boolean = true;
+  public signatarios: signatarios[] = [];
+  public listaArquivos: any[] = [];
 
   public alertas: Message[] = [];
 
@@ -37,11 +44,10 @@ export class VP_BPM {
   public anexo_id: string = '';
   public anexo_nome: string = 'nome';
 
-  public testecheck: boolean = true
+  public testecheck: boolean = true;
 
   public show_servicos: wsb.Servicos[] = [];
 
   public anexo_files_sem_GED: AnexoFile[] = [];
   public anexo_files_sem_GED_txt: string = '';
 }
-
