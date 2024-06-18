@@ -1,5 +1,7 @@
-<app-tela [vp]="vp"></app-tela>
+<ng-template #tela>
+  <app-tela [vp]="vp"></app-tela>
+</ng-template>
 
-<div class="progress-spinner-parent" *ngIf="vp.Buscando_WS">
+<div class="progress-spinner-parent" *ngIf="vp.Buscando_WS; else tela">
   <p-progressSpinner class="progress-spinner"></p-progressSpinner>
 </div>

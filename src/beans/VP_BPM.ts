@@ -11,7 +11,7 @@ export interface ResponseLoadData {
 export interface signatarios {
   nome: string;
   email: string;
-  telefone: string;
+  telefone?: string;
 }
 
 export class AnexoFile {
@@ -29,7 +29,10 @@ export class VP_BPM {
   public Buscando_WS: boolean = true;
   public signatarios: signatarios[] = [];
   public listaArquivos: any[] = [];
-
+  public notificarAutor: boolean = false;
+  public visualizacaoObrigatoria: boolean = false;
+  public geolocalizacao: boolean = false;
+  public listaUsuariosInternos: signatarios[] = [];
   public alertas: Message[] = [];
 
   public token: string = '';

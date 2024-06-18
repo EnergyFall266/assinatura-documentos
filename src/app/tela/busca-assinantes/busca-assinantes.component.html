@@ -4,50 +4,47 @@
       <div class="flex align-content-center align-items-center gap-2">
         <p-inputSwitch
           inputId="notificar"
-          [(ngModel)]="notificar"
+          [(ngModel)]="vp.notificarAutor"
         ></p-inputSwitch>
         <label
           for="notificar"
           class="prevent-select"
-          style="font-size: 1.1rem; margin-top: -0.2rem"
+          style="font-size: 1rem; margin-top: -0.2rem"
           >Notificar Autor</label
         >
       </div>
       <div class="flex align-content-center align-items-center gap-2">
         <p-inputSwitch
           inputId="visualizacao"
-          [(ngModel)]="visualizacao"
+          [(ngModel)]="vp.visualizacaoObrigatoria"
         ></p-inputSwitch>
         <label
           for="visualizacao"
           class="prevent-select"
-          style="font-size: 1.1rem; margin-top: -0.2rem"
+          style="font-size: 1rem; margin-top: -0.2rem"
           >Visualização Obrigatória</label
         >
       </div>
       <div class="flex align-content-center align-items-center gap-2">
         <p-inputSwitch
           inputId="localizacao"
-          [(ngModel)]="localizacao"
+          [(ngModel)]="vp.geolocalizacao"
         ></p-inputSwitch>
         <label
           for="localizacao"
           class="prevent-select"
-          style="font-size: 1.1rem; margin-top: -0.2rem"
+          style="font-size: 1rem; margin-top: -0.2rem"
           >Geolocalização</label
         >
       </div>
-    </div>
-    <div class="flex justify-content-center">
-      <h3 class="my-2">Seleção do(s) Signatário(s)</h3>
     </div>
     <p-tabView>
       <p-tabPanel header="Usuário Interno">
         <p-toast></p-toast>
         <p-table
           #dt
-          [value]="usuariosInternos"
-          [rows]="7"
+          [value]="vp.listaUsuariosInternos"
+          [rows]="6"
           [paginator]="true"
           [globalFilterFields]="['name', 'category']"
           selectionMode="single"
@@ -74,7 +71,7 @@
 
           <ng-template pTemplate="body" let-usuario>
             <tr [pSelectableRow]="usuario">
-              <td>{{ usuario.name }}</td>
+              <td>{{ usuario.nome }}</td>
 
               <td>{{ usuario.email }}</td>
             </tr>
@@ -94,8 +91,8 @@
           <div
             class="h-full w-full flex flex-column justify-content-center align-items-center gap-3"
           >
-            <div class="flex flex-column gap-3 w-9">
-              <span class="font-bold block mb-1">Nome:</span>
+            <div class="flex flex-column gap-3 w-9"> 
+              <span class="font-bold block mb-1">Nome <span class="text-red-500">*</span>:</span>
               <input
                 pInputText
                 aria-describedby="username-help"
@@ -103,9 +100,8 @@
               />
             </div>
             <div class="flex flex-column gap-3 w-9">
-              <span class="font-bold block mb-1">Email:</span>
+              <span class="font-bold block mb-1">Email <span class="text-red-500">*</span>:</span>
               <input
-                required="true"
                 pInputText
                 aria-describedby="username-help"
                 [(ngModel)]="emailExterno"

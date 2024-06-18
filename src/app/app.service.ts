@@ -5,7 +5,8 @@ import * as gedf from 'prisma_prismafunctions';
 import * as wsb from 'src/beans/WS_Beans';
 import { ResponseLoadData } from 'src/beans/VP_BPM';
 import { exportaG5 } from 'src/functions/WS_Axios';
-
+import { Subject } from 'rxjs';
+import { user } from '@seniorsistemas/senior-platform-data';
 const STEP = environment.tarefa();
 
 @Injectable({
@@ -13,23 +14,64 @@ const STEP = environment.tarefa();
 })
 
 export class AppService {
-  constructor() { }
 
-  public async exportaWS(port: string, body: string = '') {
-    let g5: wsb.G5Response;
 
-    g5 = await exportaG5(port, body);
+  private token: any;
+  usuario: any;
+  public vp: VP_BPM = new VP_BPM();
+  private capturaAcao = new Subject<string>();
+  acao$ = this.capturaAcao.asObservable();
+  constructor() {
+    user
+      .getToken()
+      .then((retorno) => {
+        this.token = retorno;
 
-    const r: {
-      totReg: number;
-      msgRet: string;
-      servicos: any[];
-    } = { totReg: g5.qtdReg ?? 0, msgRet: g5.msgRet ?? '', servicos: g5.servicos ?? [] };
+        const value = this.token.access_token;
+        this.capturaAcao.next(value);
+      })
+      .catch((error) => {
+        alert(
+          'Não foi possível obter token. Verifique se a tela está sendo acessada pela plataforma Senior X.'
+        );
+      });
+    }
 
-    return r
-  }
+
+ async usuariosInternos(token: any) {
+   
+   const axios = require('axios');
+   let data = JSON.stringify({
+     
+     "searchTerm": "",
+     "includeBlocked": false,
+     "ordination": {
+       "sortBy": "name"
+     }
+   });
+   
+   let config = {
+     method: 'post',
+     maxBodyLength: Infinity,
+     url: 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/user/queries/listUsers',
+     headers: { 
+       'Content-Type': 'application/json', 
+       'Authorization': 'Bearer ' + token,
+     },
+     data : data
+   };
+   
+  try {
+   
+     const response = await axios(config);
+     return response.data;
+     
+   }
+   catch (error) {
+     console.log(error);
+   }
+ }
 }
-
 
 export class PastaService {
 

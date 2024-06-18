@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MessageService } from 'primeng/api';
-import { deleteDocument } from 'prisma_prismafunctions';
+import { AppService } from 'src/app/app.service';
 import { VP_BPM } from 'src/beans/VP_BPM';
 
 @Component({
@@ -46,15 +46,33 @@ export class BuscaAssinantesComponent {
     },
   ];
   selectedUsuario: any = [];
-  constructor(private messageService: MessageService) {}
-  notificar: boolean = false;
-  visualizacao: boolean = false;
-  localizacao: boolean = false;
+  constructor(
+    private messageService: MessageService,
+    private service: AppService,
+  
+  ) {}
+
   nomeExterno: string = '';
   emailExterno: string = '';
   telefoneExterno: string = '';
-
+ 
   adicionarExterno() {
+    if (this.nomeExterno == '') {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Aviso',
+        detail: 'Nome do Signatário é obrigatório',
+      });
+      return;
+    }
+    if (this.emailExterno == '') {
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Aviso',
+        detail: 'Email do Signatário é obrigatório',
+      });
+      return;
+    }
     if (this.vp.signatarios.length == 0) {
       this.vp.signatarios.push({
         nome: this.nomeExterno,
