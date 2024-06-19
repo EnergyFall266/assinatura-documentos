@@ -5,19 +5,13 @@
   .p-card .p-card-content {
     padding:0;
 }
-.p-inputswitch {
-  height: 1.2rem;
-  width: 2.5rem;
- 
 
-  .p-inputswitch-slider::before {
-      width: 0.8rem;
-      height: 0.8rem;
-      margin-top: -0.4rem;
-  }
-}
 .p-dropdown {
   width: 17rem;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  padding: 1rem 0;
 }
 }
 .prevent-select {

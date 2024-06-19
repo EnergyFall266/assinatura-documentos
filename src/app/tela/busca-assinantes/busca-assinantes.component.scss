@@ -29,7 +29,17 @@
   .p-datatable .p-datatable-tbody >tr {
     height: 2rem
   }
-
+  .p-inputswitch {
+    height: 1.5rem;
+    width: 2.8rem;
+   
+  
+    .p-inputswitch-slider::before {
+        width: 1.1rem;
+        height: 1.1rem;
+        margin-top: -0.59rem;
+    }
+  }
 
   }
   .prevent-select {

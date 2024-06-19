@@ -51,9 +51,9 @@
     <p-card>
       <p-toast></p-toast>
       <div class="-mr-3">
-        <p-scrollPanel [style]="{ width: '100%', height: '40vh' }">
+        <p-scrollPanel [style]="{ width: '100%', height: '40vh' }" class="overflow-x-hidden">
           <div *ngIf="vp.signatarios.length !== 0; else signatarioVazio">
-            <p-table [value]="vp.signatarios" [scrollable]="true">
+            <p-table [value]="vp.signatarios" [scrollable]="true" >
               <ng-template pTemplate="body" let-signer>
                 <tr>
                   <td>

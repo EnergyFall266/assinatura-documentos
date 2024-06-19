@@ -72,17 +72,13 @@ export class BuscaAssinantesComponent {
         email: element.email,
       });
     });
-    this.vp.numeroDeUsuariosInternos = usuarios.listInformation.totalElements
+    this.vp.numeroDeUsuariosInternos = usuarios.listInformation.totalElements;
     console.log(this.vp.listaUsuariosInternos);
     console.log(this.vp.numeroDeUsuariosInternos);
   }
   async buscarUsuarioInterno(event: any) {
     console.log(event);
-    let pesquisa = await this.service.usuariosInternos(
-      this.vp.token,
-      0,
-      event
-    );
+    let pesquisa = await this.service.usuariosInternos(this.vp.token, 0, event);
     this.vp.listaUsuariosInternos = [];
     pesquisa.users.forEach((element: any) => {
       this.vp.listaUsuariosInternos.push({
@@ -90,11 +86,9 @@ export class BuscaAssinantesComponent {
         email: element.email,
       });
     });
-    this.vp.numeroDeUsuariosInternos = pesquisa.listInformation.totalElements
+    this.vp.numeroDeUsuariosInternos = pesquisa.listInformation.totalElements;
     console.log(this.vp.listaUsuariosInternos);
     console.log(this.vp.numeroDeUsuariosInternos);
-    
-    
   }
 
   adicionarExterno() {
@@ -143,10 +137,32 @@ export class BuscaAssinantesComponent {
     }
   }
   adicionarInterno() {
-    this.messageService.add({
-      severity: 'info',
-      summary: 'Adicionado',
-      detail: 'Adicionado',
-    });
+    console.log(this.selectedUsuario);
+
+    if (this.vp.signatarios.length == 0) {
+      this.vp.signatarios.push({
+        nome: this.selectedUsuario.nome,
+        email: this.selectedUsuario.email,
+      });
+    } else {
+      let adicionado: boolean = false;
+      this.vp.signatarios.forEach((element) => {
+        if (element.email == this.selectedUsuario.email) {
+          adicionado = true;
+        }
+      });
+      if (adicionado) {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Aviso',
+          detail: 'Signatário ' + this.selectedUsuario.email + ' já adicionado',
+        });
+      } else {
+        this.vp.signatarios.push({
+          nome: this.selectedUsuario.nome,
+          email: this.selectedUsuario.email,
+        });
+      }
+    }
   }
 }
