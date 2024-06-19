@@ -38,16 +38,24 @@ export class AppService {
     }
 
 
- async usuariosInternos(token: any) {
+ async usuariosInternos(token: any, paginaAtual: number, pesquisa: string = "") {
    
    const axios = require('axios');
+  
    let data = JSON.stringify({
      
-     "searchTerm": "",
-     "includeBlocked": false,
-     "ordination": {
-       "sortBy": "name"
-     }
+    
+      "pagination": {
+          "pageNumber": paginaAtual,
+          "pageSize": 5
+      },
+      "searchTerm": pesquisa,
+      "includeBlocked": true,
+      "ordination": {
+          "sortBy": "name"
+      }
+  
+     
    });
    
    let config = {
@@ -64,6 +72,8 @@ export class AppService {
   try {
    
      const response = await axios(config);
+     console.log(response.data);
+     
      return response.data;
      
    }

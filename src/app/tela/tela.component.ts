@@ -24,7 +24,7 @@ export class TelaComponent {
 
  async getUsuariosInternos() {
   
-    let usuarios = await this.appService.usuariosInternos( this.vp.token)
+    let usuarios = await this.appService.usuariosInternos( this.vp.token, 0)
     console.log(usuarios.users);
    usuarios.users.forEach((element: any) => {
       this.vp.listaUsuariosInternos.push({
@@ -34,6 +34,8 @@ export class TelaComponent {
       });
    });
    console.log(this.vp.listaUsuariosInternos);
+ this.vp.numeroDeUsuariosInternos = usuarios.listInformation.totalElements
+   
    
       
 

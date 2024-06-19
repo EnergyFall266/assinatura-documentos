@@ -40,6 +40,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { AvatarModule } from 'primeng/avatar';
 import { ToastModule } from 'primeng/toast';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 export const HttpLoaderFactory = (httpClient: HttpClient) =>
@@ -81,6 +82,7 @@ export const HttpLoaderFactory = (httpClient: HttpClient) =>
     AvatarModule,
     ToastModule,
     ScrollPanelModule,
+    PaginatorModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

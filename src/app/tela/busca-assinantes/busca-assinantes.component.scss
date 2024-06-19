@@ -21,6 +21,16 @@
   .p-inputtext {
     width: 100%;
   }
+
+  .p-tabview .p-tabview-panels {
+    padding: 0;
+   
+  }
+  .p-datatable .p-datatable-tbody >tr {
+    height: 2rem
+  }
+
+
   }
   .prevent-select {
     -webkit-user-select: none; /* Safari */

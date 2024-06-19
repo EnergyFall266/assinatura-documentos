@@ -33,7 +33,7 @@ export class VP_BPM {
   public visualizacaoObrigatoria: boolean = false;
   public geolocalizacao: boolean = false;
   public listaUsuariosInternos: signatarios[] = [];
-  public alertas: Message[] = [];
+  public numeroDeUsuariosInternos: number = 0;
 
   public token: string = '';
   public user_fullName: string = '';

@@ -48,14 +48,55 @@ export class BuscaAssinantesComponent {
   selectedUsuario: any = [];
   constructor(
     private messageService: MessageService,
-    private service: AppService,
-  
+    private service: AppService
   ) {}
 
   nomeExterno: string = '';
   emailExterno: string = '';
   telefoneExterno: string = '';
- 
+  async onPageChange(event: any) {
+    console.log(event);
+    let paginaAtual = event.page;
+    console.log(paginaAtual);
+    let usuarios = await this.service.usuariosInternos(
+      this.vp.token,
+      paginaAtual
+    );
+    console.log(this.vp.listaUsuariosInternos);
+
+    console.log(usuarios.users);
+    this.vp.listaUsuariosInternos = [];
+    usuarios.users.forEach((element: any) => {
+      this.vp.listaUsuariosInternos.push({
+        nome: element.fullName,
+        email: element.email,
+      });
+    });
+    this.vp.numeroDeUsuariosInternos = usuarios.listInformation.totalElements
+    console.log(this.vp.listaUsuariosInternos);
+    console.log(this.vp.numeroDeUsuariosInternos);
+  }
+  async buscarUsuarioInterno(event: any) {
+    console.log(event);
+    let pesquisa = await this.service.usuariosInternos(
+      this.vp.token,
+      0,
+      event
+    );
+    this.vp.listaUsuariosInternos = [];
+    pesquisa.users.forEach((element: any) => {
+      this.vp.listaUsuariosInternos.push({
+        nome: element.fullName,
+        email: element.email,
+      });
+    });
+    this.vp.numeroDeUsuariosInternos = pesquisa.listInformation.totalElements
+    console.log(this.vp.listaUsuariosInternos);
+    console.log(this.vp.numeroDeUsuariosInternos);
+    
+    
+  }
+
   adicionarExterno() {
     if (this.nomeExterno == '') {
       this.messageService.add({
