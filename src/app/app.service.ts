@@ -10,12 +10,9 @@ import { user } from '@seniorsistemas/senior-platform-data';
 const STEP = environment.tarefa();
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class AppService {
-
-
   private token: any;
   usuario: any;
   public vp: VP_BPM = new VP_BPM();
@@ -25,67 +22,61 @@ export class AppService {
     user
       .getToken()
       .then((retorno) => {
-        this.token = retorno;
-
-        const value = this.token.access_token;
-        this.capturaAcao.next(value);
+        this.capturaAcao.next(retorno);
       })
       .catch((error) => {
         alert(
           'Não foi possível obter token. Verifique se a tela está sendo acessada pela plataforma Senior X.'
         );
       });
-    }
+  }
 
+  async usuariosInternos(
+    token: any,
+    paginaAtual: number,
+    pesquisa: string = ''
+  ) {
+    const axios = require('axios');
 
- async usuariosInternos(token: any, paginaAtual: number, pesquisa: string = "") {
-   
-   const axios = require('axios');
-  
-   let data = JSON.stringify({
-     
-    
-      "pagination": {
-          "pageNumber": paginaAtual,
-          "pageSize": 5
+    let data = JSON.stringify({
+      pagination: {
+        pageNumber: paginaAtual,
+        pageSize: 5,
       },
-      "searchTerm": pesquisa,
-      "includeBlocked": true,
-      "ordination": {
-          "sortBy": "name"
-      }
-  
-     
-   });
-   
-   let config = {
-     method: 'post',
-     maxBodyLength: Infinity,
-     url: 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/user/queries/listUsers',
-     headers: { 
-       'Content-Type': 'application/json', 
-       'Authorization': 'Bearer ' + token,
-     },
-     data : data
-   };
-   
-  try {
-   
-     const response = await axios(config);
-     console.log(response.data);
-     
-     return response.data;
-     
-   }
-   catch (error) {
-     console.log(error);
-   }
- }
+      searchTerm: pesquisa,
+      includeBlocked: true,
+      ordination: {
+        sortBy: 'name',
+      },
+    });
+
+    let config = {
+      method: 'post',
+      maxBodyLength: Infinity,
+      url: 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/user/queries/listUsers',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      },
+      data: data,
+    };
+
+    try {
+      const response = await axios(config);
+      console.log(response.data);
+
+      return response.data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export class PastaService {
 
   async pegarPastas(vp: VP_BPM, pan?: string) {
+    console.log();
+    
     const paiId: string = await gedf.checkFolder(
       vp.token,
       {
@@ -135,10 +126,6 @@ export class PastaService {
 
     return { paiId, proId, panId: '' };
   }
-
-
-
-
 }
 
 export class AnexoService {

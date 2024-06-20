@@ -38,7 +38,7 @@ export class VP_BPM {
   public token: string = '';
   public user_fullName: string = '';
   public GED_pasta_codigo: string = '';
-  public ged_pasta_pai_nome: string = 'Projeto Padrao';
+  public ged_pasta_pai_nome: string = 'Assinatura de Documentos';
   public GED_pasta_codigo_id: string = '';
   public ged_pasta_pai_id: string = '';
 
