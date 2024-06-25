@@ -40,6 +40,10 @@ export class DocumentosAssinantesComponent {
     });
   }
   onBasicUploadAuto(event: any, fileUpload: any) {
+    console.log(event);
+    console.log(fileUpload);
+    
+    
     console.log(this.vp.listaArquivos.length);
     let adicionado: boolean = false;
     if (this.vp.listaArquivos.length === 0) {

@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { VP_BPM } from 'src/beans/VP_BPM';
 import { AppService, PastaService } from '../app.service';
-import { sendDocument } from "prisma_prismafunctions";
-import { checkFolder } from "prisma_prismafunctions";
+import { sendDocument } from 'prisma_prismafunctions';
+import { checkFolder } from 'prisma_prismafunctions';
 import { timeout } from 'rxjs';
+import { checkImportStatus } from 'prisma_prismafunctions';
 
 @Component({
   selector: 'app-tela',
@@ -16,7 +17,7 @@ export class TelaComponent {
   visualizacao: boolean = false;
   localizacao: boolean = false;
 
-  constructor(private appService: AppService, private pasta:PastaService) {}
+  constructor(private appService: AppService, private pasta: PastaService) {}
   ngOnInit() {
     this.getUsuariosInternos();
   }
@@ -33,35 +34,39 @@ export class TelaComponent {
     console.log(this.vp.listaUsuariosInternos);
     this.vp.numeroDeUsuariosInternos = usuarios.listInformation.totalElements;
   }
-async enviar(){
-console.log(this.vp.user_fullName);
-console.log(this.vp.token);
+  async enviar() {
+    console.log(this.vp.user_fullName);
+    console.log(this.vp.token);
 
+    console.log(this.vp.ged_pasta_pai_id);
 
-console.log(this.vp.ged_pasta_pai_id);
+    // let folder: any = await this.pasta.pegarPastas(this.vp);
+    //     this.vp.ged_pasta_pai_id = folder.paiId;
+    //     console.log(folder);
+    //     console.log(this.vp.ged_pasta_pai_id);
 
+    let paiId = await checkFolder(
+      this.vp.token,
+      { name: 'Assinatura de Documentos' },
+      this.vp.ged_pasta_pai_id
+    );
+    this.vp.ged_pasta_pai_id = paiId;
 
-// let folder: any = await this.pasta.pegarPastas(this.vp);
-//     this.vp.ged_pasta_pai_id = folder.paiId;
-//     console.log(folder);
-//     console.log(this.vp.ged_pasta_pai_id);
-
-let paiId = await checkFolder( this.vp.token, {name:"Assinatura de Documentos"}, this.vp.ged_pasta_pai_id);
-this.vp.ged_pasta_pai_id = paiId;
-
-
-console.log(this.vp.ged_pasta_pai_id);
-console.log(this.vp.listaArquivos);
-let teste={
-  arquivoFile: this.vp.listaArquivos[0],
-  enviado: false
-}
-console.log(this.vp.listaArquivos[0]);
-
-
- let retorno= await sendDocument(this.vp.ged_pasta_pai_id, teste , this.vp.user_fullName, this.vp.token);
-
-console.log(retorno);
-
-}
+    console.log(this.vp.ged_pasta_pai_id);
+    console.log(this.vp.listaArquivos);
+    
+    for (let i = 0; i < this.vp.listaArquivos.length; i++) {
+      let file = {
+        arquivoFile: this.vp.listaArquivos[i],
+      };
+      console.log(file.arquivoFile);
+      let retorno = await sendDocument(
+        this.vp.ged_pasta_pai_id,
+        file,
+        this.vp.user_fullName,
+        this.vp.token
+      );
+      console.log(retorno);
+    }
+  }
 }

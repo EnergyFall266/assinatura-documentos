@@ -6,7 +6,7 @@
           #fileUpload
           styleClass="p-button-rounded"
           mode="basic"
-          name="demo[]"
+        
           chooseIcon="pi pi-plus"
           accept=".pdf"
           chooseLabel="Documento"
@@ -14,6 +14,7 @@
           [auto]="true"
           [multiple]="true"
           [customUpload]="true"
+          [files]="vp.listaArquivos"
         ></p-fileUpload>
       </div>
       <div class="-mr-3">
