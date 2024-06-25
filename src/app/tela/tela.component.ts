@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { VP_BPM } from 'src/beans/VP_BPM';
 import { AppService, PastaService } from '../app.service';
-import { sendDocument } from 'prisma_prismafunctions';
+import { Anexo, sendDocument } from 'prisma_prismafunctions';
 import { checkFolder } from 'prisma_prismafunctions';
 import { timeout } from 'rxjs';
 import { checkImportStatus } from 'prisma_prismafunctions';
@@ -17,7 +17,7 @@ export class TelaComponent {
   visualizacao: boolean = false;
   localizacao: boolean = false;
 
-  constructor(private appService: AppService, private pasta: PastaService) {}
+  constructor(private appService: AppService, private pasta: PastaService) { }
   ngOnInit() {
     this.getUsuariosInternos();
   }
@@ -54,12 +54,15 @@ export class TelaComponent {
 
     console.log(this.vp.ged_pasta_pai_id);
     console.log(this.vp.listaArquivos);
-    
+    console.log(this.vp.byteArray);
+
     for (let i = 0; i < this.vp.listaArquivos.length; i++) {
-      let file = {
+      let file: Anexo = {
         arquivoFile: this.vp.listaArquivos[i],
+        enviado: true,
+        byteArray: this.vp.byteArray[i]
       };
-      console.log(file.arquivoFile);
+      console.log(file);
       let retorno = await sendDocument(
         this.vp.ged_pasta_pai_id,
         file,

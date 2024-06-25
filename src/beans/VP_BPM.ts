@@ -29,6 +29,8 @@ export class VP_BPM {
   public Buscando_WS: boolean = true;
   public signatarios: signatarios[] = [];
   public listaArquivos: any[] = [];
+  public byteArray: any[] = [];
+
   public notificarAutor: boolean = false;
   public visualizacaoObrigatoria: boolean = false;
   public geolocalizacao: boolean = false;

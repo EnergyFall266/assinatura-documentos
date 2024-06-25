@@ -26,7 +26,7 @@ export class DocumentosAssinantesComponent {
   assinaturaSelecionada: string = '';
   value: string = '';
 
-  constructor(private messageService: MessageService) {}
+  constructor(private messageService: MessageService) { }
 
   deleteDocument(document: any) {
     this.vp.listaArquivos = this.vp.listaArquivos.filter(
@@ -40,22 +40,51 @@ export class DocumentosAssinantesComponent {
     });
   }
   onBasicUploadAuto(event: any, fileUpload: any) {
-    console.log(event);
-    console.log(fileUpload);
-    
-    
-    console.log(this.vp.listaArquivos.length);
+    // console.log(event);
+    // console.log(fileUpload);
+
+
+    // console.log(this.vp.listaArquivos.length);
     let adicionado: boolean = false;
     if (this.vp.listaArquivos.length === 0) {
-      console.log('vazio');
+      // console.log('vazio');
 
       for (let file of event.files) {
         this.vp.listaArquivos.push(file);
+        const reader: FileReader = new FileReader();
+        reader.readAsArrayBuffer(file);
+        reader.onloadend = (e) => {
+          this.vp.byteArray[0] = new Uint8Array(
+            e.target?.result as ArrayBuffer
+          );
+        };
       }
       fileUpload.clear();
     } else {
-      for (let file of event.files) {
-        console.log(file.name);
+      // for (let file of event.files) {
+      //   console.log(file.name);
+
+      //   adicionado = false;
+      //   this.vp.listaArquivos.forEach((element) => {
+      //     if (element.name == file.name) {
+      //       adicionado = true;
+      //       console.log(element.name);
+      //     }
+      //   });
+      //   if (adicionado) {
+      //     this.messageService.add({
+      //       severity: 'warn',
+      //       summary: 'Aviso',
+      //       detail: 'Arquivo ' + file.name + ' já adicionado',
+      //     });
+
+      //     continue;
+      //   } else {
+      //     this.vp.listaArquivos.push(file);
+      //   }
+      // }
+      event.files.forEach((file: any, i: any) => {
+        // console.log(file.name);
 
         adicionado = false;
         this.vp.listaArquivos.forEach((element) => {
@@ -70,12 +99,20 @@ export class DocumentosAssinantesComponent {
             summary: 'Aviso',
             detail: 'Arquivo ' + file.name + ' já adicionado',
           });
-
-          continue;
         } else {
           this.vp.listaArquivos.push(file);
+          const reader: FileReader = new FileReader();
+          reader.readAsArrayBuffer(file);
+          reader.onloadend = (e) => {
+            this.vp.byteArray[i + 1] = new Uint8Array(
+              e.target?.result as ArrayBuffer
+            );
+          };
         }
-      }
+        console.log('for do byteArray')
+        console.log(i)
+        console.log(this.vp.byteArray)
+      });
 
       fileUpload.clear();
     }
