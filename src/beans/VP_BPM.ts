@@ -9,11 +9,35 @@ export interface ResponseLoadData {
   vp: VP_BPM;
 }
 export interface signatarios {
-  nome: string;
+  name: string;
   email: string;
-  telefone?: string;
+  phoneNumber?: string;
+  username?: string;
+  askGeolocation?: string;
+  communicationChannel: {
+    email: true;
+    platform?: boolean;
+    whatsapp?: boolean;
+    sms?: boolean;
+  };
+  signerType?: string;
+  orderSign?: number;
+  digitalCertificate?: string;
 }
 
+export interface envelope {
+  envelopeDraftId: string;
+  name: string;
+  documentsVersions: [string];
+  envelopeDocuments: [{ documentVsersion: string; envelopePosition: number }];
+  signers: [];
+  instructionsToSigner: string;
+  askGeolocation: string;
+  daysToExpire: number;
+  envelopeBatchId: string;
+  mandatoryView: boolean;
+  notificateAuthor: boolean;
+}
 export class AnexoFile {
   file: File;
   bytes: ArrayBuffer;

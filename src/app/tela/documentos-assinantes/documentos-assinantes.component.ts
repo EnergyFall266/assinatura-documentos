@@ -3,6 +3,36 @@ import { MessageService } from 'primeng/api';
 import { EditableColumn } from 'primeng/table';
 import { VP_BPM } from 'src/beans/VP_BPM';
 
+interface envelope {
+  envelopeDraftId: string;
+  name: string;
+  documentsVersions: [string];
+  envelopeDocuments: [{ documentVsersion: string; envelopePosition: number }];
+  signers: [
+    {
+      name: string;
+      email: string;
+      phoneNumber?: string;
+      username: string;
+      askGeolocation: string;
+      communicationChannel: {
+        email: boolean;
+        platform?: boolean;
+        whatsapp?: boolean;
+        sms?: boolean;
+      };
+      signerType: string;
+      orderSign: number;
+      digitalCertificate: string;
+    }
+  ];
+  instructionsToSigner: string;
+  askGeolocation: string;
+  daysToExpire: number;
+  envelopeBatchId: string;
+  mandatoryView: boolean;
+  notificateAuthor: boolean;
+}
 @Component({
   selector: 'app-documentos-assinantes',
   templateUrl: './documentos-assinantes.component.html',
@@ -11,22 +41,27 @@ import { VP_BPM } from 'src/beans/VP_BPM';
 export class DocumentosAssinantesComponent {
   @Input() vp!: VP_BPM;
 
-  notificar: boolean = false;
-  visualizacao: boolean = false;
-  localizacao: boolean = false;
-  acaoSignatario: string[] = [
-    'Assinatura Obrigatória',
-    'Assinatura Pioneira',
-    'Assinatura em Cópia',
-    'Assinatura em Cópia - Antes de Assinar',
-    'Assinatura via Link',
+  acaoSignatario: any[] = [
+    {
+      name: 'Assinatura Obrigatória',
+      value: 'MANDATORY',
+    },
+    { name: 'Assinatura Pioneira', value: 'PIONEER' },
+    { name: 'Assinatura em Cópia' },
+    { name: 'Assinatura em Cópia - Antes de Assinar' },
+    { name: 'Assinatura via Link' },
   ];
+
   acaoSelecionada: string = '';
-  assinaturaCertificado: string[] = ['Desabilitado', 'Opcional', 'Obrigatório'];
+  assinaturaCertificado: any[] = [
+    {name: 'Obrigatório', value: 'MANDATORY'},
+    {name: 'Opcional', value: 'OPTIONAL'},
+    {name: 'Desabilitado'}
+  ];
   assinaturaSelecionada: string = '';
   value: string = '';
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService) {}
 
   deleteDocument(document: any) {
     this.vp.listaArquivos = this.vp.listaArquivos.filter(
@@ -40,51 +75,22 @@ export class DocumentosAssinantesComponent {
     });
   }
   onBasicUploadAuto(event: any, fileUpload: any) {
-    // console.log(event);
-    // console.log(fileUpload);
-
-
-    // console.log(this.vp.listaArquivos.length);
     let adicionado: boolean = false;
     if (this.vp.listaArquivos.length === 0) {
-      // console.log('vazio');
-
       for (let file of event.files) {
         this.vp.listaArquivos.push(file);
         const reader: FileReader = new FileReader();
         reader.readAsArrayBuffer(file);
         reader.onloadend = (e) => {
-          this.vp.byteArray[0] = new Uint8Array(
-            e.target?.result as ArrayBuffer
+          this.vp.byteArray.push(
+            new Uint8Array(e.target?.result as ArrayBuffer)
           );
         };
       }
       fileUpload.clear();
     } else {
-      // for (let file of event.files) {
-      //   console.log(file.name);
-
-      //   adicionado = false;
-      //   this.vp.listaArquivos.forEach((element) => {
-      //     if (element.name == file.name) {
-      //       adicionado = true;
-      //       console.log(element.name);
-      //     }
-      //   });
-      //   if (adicionado) {
-      //     this.messageService.add({
-      //       severity: 'warn',
-      //       summary: 'Aviso',
-      //       detail: 'Arquivo ' + file.name + ' já adicionado',
-      //     });
-
-      //     continue;
-      //   } else {
-      //     this.vp.listaArquivos.push(file);
-      //   }
-      // }
-      event.files.forEach((file: any, i: any) => {
-        // console.log(file.name);
+      for (let file of event.files) {
+        console.log(file.name);
 
         adicionado = false;
         this.vp.listaArquivos.forEach((element) => {
@@ -104,18 +110,18 @@ export class DocumentosAssinantesComponent {
           const reader: FileReader = new FileReader();
           reader.readAsArrayBuffer(file);
           reader.onloadend = (e) => {
-            this.vp.byteArray[i + 1] = new Uint8Array(
-              e.target?.result as ArrayBuffer
+            this.vp.byteArray.push(
+              new Uint8Array(e.target?.result as ArrayBuffer)
             );
           };
         }
-        console.log('for do byteArray')
-        console.log(i)
-        console.log(this.vp.byteArray)
-      });
+
+        console.log(this.vp.byteArray);
+      }
 
       fileUpload.clear();
     }
+    console.log(this.vp.byteArray);
   }
 
   deleteSigner(signer: any) {

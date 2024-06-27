@@ -67,7 +67,7 @@
                   </td>
                   <td>
                     <div class="font-bold">
-                      {{ signer.nome }}
+                      {{ signer.name }}
                     </div>
                     <div class="text-sm">
                       {{ signer.email }}
@@ -78,7 +78,9 @@
                     <p>Ação do Signatário:</p>
                     <p-dropdown
                       [options]="acaoSignatario"
-                      [(ngModel)]="signer.acaoSelecionada"
+                      optionLabel="name"
+                      optionValue="value"
+                      [(ngModel)]="signer.signerType"
                       appendTo="body"
                     ></p-dropdown>
                   </td>
@@ -86,7 +88,9 @@
                     <p>Assinatura com Certificado:</p>
                     <p-dropdown
                       [options]="assinaturaCertificado"
-                      [(ngModel)]="signer.assinaturaSelecionada"
+                      optionLabel="name"
+                      optionValue="value"
+                      [(ngModel)]="signer.digitalCertificate"
                       appendTo="body"
                     ></p-dropdown>
                   </td>
