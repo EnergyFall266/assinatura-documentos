@@ -6,7 +6,6 @@
           #fileUpload
           styleClass="p-button-rounded"
           mode="basic"
-        
           chooseIcon="pi pi-plus"
           accept=".pdf"
           chooseLabel="Documento"
@@ -52,9 +51,12 @@
     <p-card>
       <p-toast></p-toast>
       <div class="-mr-3">
-        <p-scrollPanel [style]="{ width: '100%', height: '40vh' }" class="overflow-x-hidden">
+        <p-scrollPanel
+          [style]="{ width: '100%', height: '40vh' }"
+          class="overflow-x-hidden"
+        >
           <div *ngIf="vp.signatarios.length !== 0; else signatarioVazio">
-            <p-table [value]="vp.signatarios" [scrollable]="true" >
+            <p-table [value]="vp.signatarios" [scrollable]="true">
               <ng-template pTemplate="body" let-signer>
                 <tr>
                   <td>
@@ -77,6 +79,7 @@
                   <td>
                     <p>Ação do Signatário:</p>
                     <p-dropdown
+                      #acaoSignatarios
                       [options]="acaoSignatario"
                       optionLabel="name"
                       optionValue="value"
@@ -84,9 +87,14 @@
                       appendTo="body"
                     ></p-dropdown>
                   </td>
+
                   <td>
                     <p>Assinatura com Certificado:</p>
                     <p-dropdown
+                      [disabled]="
+                       ( signer.signerType === 'RECEIVE_COPY' ||
+                        signer.signerType === 'RECEIVE_COPY_BEFORE_SIGN')
+                      "
                       [options]="assinaturaCertificado"
                       optionLabel="name"
                       optionValue="value"
@@ -94,6 +102,7 @@
                       appendTo="body"
                     ></p-dropdown>
                   </td>
+
                   <td>
                     <p-button
                       icon="pi pi-trash"

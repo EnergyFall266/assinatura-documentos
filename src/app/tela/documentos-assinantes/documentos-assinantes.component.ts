@@ -47,8 +47,8 @@ export class DocumentosAssinantesComponent {
       value: 'MANDATORY',
     },
     { name: 'Assinatura Pioneira', value: 'PIONEER' },
-    { name: 'Assinatura em Cópia' },
-    { name: 'Assinatura em Cópia - Antes de Assinar' },
+    { name: 'Assinatura em Cópia', value:'RECEIVE_COPY' },
+    { name: 'Assinatura em Cópia - Antes de Assinar' , value: 'RECEIVE_COPY_BEFORE_SIGN'},
     { name: 'Assinatura via Link' },
   ];
 
@@ -56,7 +56,7 @@ export class DocumentosAssinantesComponent {
   assinaturaCertificado: any[] = [
     {name: 'Obrigatório', value: 'MANDATORY'},
     {name: 'Opcional', value: 'OPTIONAL'},
-    {name: 'Desabilitado'}
+    {name: 'Desabilitado', value: null}
   ];
   assinaturaSelecionada: string = '';
   value: string = '';

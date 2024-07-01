@@ -30,7 +30,7 @@ export interface envelope {
   name: string;
   documentsVersions: [string];
   envelopeDocuments: [{ documentVsersion: string; envelopePosition: number }];
-  signers: [];
+  signers:signatarios [];
   instructionsToSigner: string;
   askGeolocation: string;
   daysToExpire: number;
