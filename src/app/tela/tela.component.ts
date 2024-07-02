@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { VP_BPM, envelope } from 'src/beans/VP_BPM';
+import { VP_BPM, envelope, envelopeDocuments } from 'src/beans/VP_BPM';
 import { AppService, PastaService } from '../app.service';
 import { Anexo, sendDocument } from 'prisma_prismafunctions';
 import { checkFolder } from 'prisma_prismafunctions';
@@ -51,31 +51,16 @@ export class TelaComponent {
         assinante = true;
       }
     });
-    if (!assinante) {
-      this.messageService.add({
-        severity: 'warn',
-        summary: 'Aviso',
-        detail: 'Nenhum signatário selecionado',
-      });
-      return;
-    }
-
-    const draftEnvelope: envelope = {
-      envelopeDraftId: '',
-      name: '',
-      documentsVersions: [''],
-      envelopeDocuments: [{ documentVsersion: '', envelopePosition: 1 }],
-      signers: this.vp.signatarios,
-      instructionsToSigner: '',
-      askGeolocation: this.vp.geolocalizacao
-        ? 'REQUIRED_LOCATION'
-        : 'DONT_ASK_LOCATION',
-      daysToExpire: 120,
-      envelopeBatchId: '',
-      mandatoryView: this.vp.visualizacaoObrigatoria ? true : false,
-      notificateAuthor: this.vp.notificarAutor ? true : false,
-    };
-    console.log(draftEnvelope);
+    // if (!assinante) {
+    //   this.messageService.add({
+    //     severity: 'warn',
+    //     summary: 'Aviso',
+    //     detail: 'Nenhum signatário selecionado',
+    //   });
+    //   return;
+    // }
+ let documentosVersao =[]
+   
 
     // if(this.vp.listaArquivos.length === 0){
     //   this.messageService.add({
@@ -93,37 +78,63 @@ export class TelaComponent {
     //   });
     //   return;
     // // }
-    // console.log(this.vp.user_fullName);
-    // console.log(this.vp.token);
+    console.log(this.vp.user_fullName);
+    console.log(this.vp.token);
 
     // console.log(this.vp.ged_pasta_pai_id);
 
-    // let paiId = await checkFolder(
-    //   this.vp.token,
-    //   { name: 'Assinatura de Documentos' },
-    //   this.vp.ged_pasta_pai_id
-    // );
-    // this.vp.ged_pasta_pai_id = paiId;
+    let paiId = await checkFolder(
+      this.vp.token,
+      { name: 'Assinatura de Documentos' },
+      this.vp.ged_pasta_pai_id
+    );
+    this.vp.ged_pasta_pai_id = paiId;
 
-    // console.log(this.vp.ged_pasta_pai_id);
-    // console.log(this.vp.listaArquivos);
-    // console.log(this.vp.byteArray);
+    console.log(this.vp.ged_pasta_pai_id);
+    console.log(this.vp.listaArquivos);
+    console.log(this.vp.byteArray);
+    let envelopeDocumentos: envelopeDocuments[] = [];
     // this.vp.Buscando_WS = true;
-    // for (let i = 0; i < this.vp.listaArquivos.length; i++) {
-    //   let file: Anexo = {
-    //     arquivoFile: this.vp.listaArquivos[i],
-    //     enviado: true,
-    //     byteArray: this.vp.byteArray[i],
-    //   };
+    for (let i = 0; i < this.vp.listaArquivos.length; i++) {
+      let file: Anexo = {
+        arquivoFile: this.vp.listaArquivos[i],
+        enviado: true,
+        byteArray: this.vp.byteArray[i],
+      };
 
-    //   let retorno = await sendDocument(
-    //     this.vp.ged_pasta_pai_id,
-    //     file,
-    //     this.vp.user_fullName,
-    //     this.vp.token
-    //   );
-    //   console.log(retorno);
-    // }
+      let retorno = await sendDocument(
+        this.vp.ged_pasta_pai_id,
+        file,
+        this.vp.user_fullName,
+        this.vp.token
+      );
+      documentosVersao.push(retorno.documentVersionId);
+      envelopeDocumentos.push({
+        documentVersion: retorno.documentVersionId,
+        envelopePosition: i+1,
+      });
+      console.log(retorno);
+    }
+    console.log(documentosVersao);
+    const draftEnvelope: envelope = {
+      envelopeDraftId: '',
+      name: 'Documento(s) para assinatura',
+      documentsVersions: documentosVersao,
+      envelopeDocuments: envelopeDocumentos,
+      signers: this.vp.signatarios,
+      instructionsToSigner: '',
+      askGeolocation: this.vp.geolocalizacao
+        ? 'REQUIRED_LOCATION'
+        : 'DONT_ASK_LOCATION',
+      daysToExpire: 120,
+      envelopeBatchId: '',
+      mandatoryView: this.vp.visualizacaoObrigatoria ? true : false,
+      notificateAuthor: this.vp.notificarAutor ? true : false,
+    };
+    console.log(draftEnvelope);
+    let envelopeDraftId = await this.appService.createEnvelope(draftEnvelope, this.vp.token);
+    console.log(envelopeDraftId);
+    
     // this.vp.listaArquivos = [];
     // this.vp.byteArray = [];
     // this.vp.Buscando_WS = false;

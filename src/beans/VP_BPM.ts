@@ -15,7 +15,7 @@ export interface signatarios {
   username?: string;
   askGeolocation?: string;
   communicationChannel: {
-    email: true;
+    email: boolean;
     platform?: boolean;
     whatsapp?: boolean;
     sms?: boolean;
@@ -25,11 +25,15 @@ export interface signatarios {
   digitalCertificate?: string;
 }
 
+export interface envelopeDocuments {
+  documentVersion: any;
+  envelopePosition: number;
+}
 export interface envelope {
   envelopeDraftId: string;
   name: string;
-  documentsVersions: [string];
-  envelopeDocuments: [{ documentVsersion: string; envelopePosition: number }];
+  documentsVersions:any [];
+  envelopeDocuments:envelopeDocuments [];
   signers:signatarios [];
   instructionsToSigner: string;
   askGeolocation: string;
