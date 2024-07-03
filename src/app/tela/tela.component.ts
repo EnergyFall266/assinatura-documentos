@@ -4,6 +4,7 @@ import { AppService, PastaService } from '../app.service';
 import { Anexo, sendDocument } from 'prisma_prismafunctions';
 import { checkFolder } from 'prisma_prismafunctions';
 import { checkImportStatus } from 'prisma_prismafunctions';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-tela',
@@ -15,7 +16,7 @@ export class TelaComponent {
   visible: boolean = false;
   nomeEnvelope: string = '';
 
-  constructor(private appService: AppService) {}
+  constructor(private appService: AppService, private messageService: MessageService) {}
   ngOnInit() {
     this.getUsuariosInternos();
   }
@@ -91,7 +92,7 @@ dialog(){
     console.log(this.vp.listaArquivos);
     console.log(this.vp.byteArray);
     let envelopeDocumentos: envelopeDocuments[] = [];
-    // this.vp.Buscando_WS = true;
+    this.vp.Buscando_WS = true;
     for (let i = 0; i < this.vp.listaArquivos.length; i++) {
       let file: Anexo = {
         arquivoFile: this.vp.listaArquivos[i],
@@ -133,10 +134,40 @@ dialog(){
       draftEnvelope,
       this.vp.token
     );
+    if (envelopeDraftId === undefined) {
+      this.vp.Buscando_WS = false;
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Erro ao criar envelope',
+      });
+      return;
+    }
     console.log(envelopeDraftId);
-
-    // this.vp.listaArquivos = [];
-    // this.vp.byteArray = [];
-    // this.vp.Buscando_WS = false;
+    let send = await this.appService.sendToSign(envelopeDraftId.envelopeDraftId, this.vp.token);
+    console.log(send);
+    if (send === undefined) {
+      console.log('Erro ao enviar envelope');
+      
+      this.vp.Buscando_WS = false;
+      setTimeout(() => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Erro',
+        detail: 'Erro ao enviar envelope',
+      }), 5000
+      }
+      );
+      return;
+    }
+    
+    this.nomeEnvelope = '';
+    this.vp.geolocalizacao = false;
+    this.vp.visualizacaoObrigatoria = false;
+    this.vp.notificarAutor = false;
+    this.vp.signatarios = [];
+    this.vp.listaArquivos = [];
+    this.vp.byteArray = [];
+    this.vp.Buscando_WS = false;
   }
 }

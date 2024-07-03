@@ -58,20 +58,21 @@ try {
 
 }
 
-async sendToSign(){
+async sendToSign(envelopeDraftId: string, token: any) {
   const axios = require('axios');
-let data = JSON.stringify({
-  "envelopeDraftId": "6f9c13f1-aa0d-4e5a-8caf-4f2dbb66b051",
-  "notifyUser": true,
-  "sendEmail": true
-});
+let data = {
+  envelopeDraftId: envelopeDraftId,
+  notifyUser: true,
+  sendEmail: true
+};
 
 let config = {
   method: 'post',
   maxBodyLength: Infinity,
   url: 'https://platform.senior.com.br/t/senior.com.br/bridge/1.0/rest/platform/ecm_ged/actions/sendDraftToSign',
-  headers: { 
-    'Content-Type': 'application/json'
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: 'Bearer ' + token,
   },
   data : data
 };
