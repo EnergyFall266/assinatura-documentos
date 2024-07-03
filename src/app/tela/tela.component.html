@@ -6,10 +6,31 @@
     <div style="height: 92vh">
       <app-documentos-assinantes [vp]="vp"></app-documentos-assinantes>
     </div>
-    
+
     <div class="col flex justify-content-end -mt-2 mr-4">
-      <p-button  icon="pi pi-iconName" class="" label="Concluir" (onClick)="enviar()"></p-button>
+      <p-button
+        icon="pi pi-iconName"
+        class=""
+        label="Concluir"
+        (onClick)="dialog()"
+      ></p-button>
+      <p-dialog
+        header="Nome Envelope"
+        [(visible)]="visible"
+        [modal]="true"
+        [style]="{ width: '30vw' }"
+      >
+        <div class="flex justify-content-center ">
+          <input type="text" pInputText [(ngModel)]="nomeEnvelope" class="w-18rem" />
+        </div>
+        <ng-template pTemplate="footer">
+          <p-button
+            (click)="visible = false"
+            label="Enviar"
+            (click)="enviar()"
+          ></p-button>
+        </ng-template>
+      </p-dialog>
     </div>
   </div>
-  </div>
-
+</div>

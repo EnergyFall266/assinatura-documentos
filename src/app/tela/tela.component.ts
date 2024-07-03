@@ -3,9 +3,7 @@ import { VP_BPM, envelope, envelopeDocuments } from 'src/beans/VP_BPM';
 import { AppService, PastaService } from '../app.service';
 import { Anexo, sendDocument } from 'prisma_prismafunctions';
 import { checkFolder } from 'prisma_prismafunctions';
-import { timeout } from 'rxjs';
 import { checkImportStatus } from 'prisma_prismafunctions';
-import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-tela',
@@ -14,16 +12,16 @@ import { MessageService } from 'primeng/api';
 })
 export class TelaComponent {
   @Input() vp!: VP_BPM;
+  visible: boolean = false;
+  nomeEnvelope: string = '';
 
-  constructor(
-    private appService: AppService,
-    private pasta: PastaService,
-    private messageService: MessageService
-  ) {}
+  constructor(private appService: AppService) {}
   ngOnInit() {
     this.getUsuariosInternos();
   }
-
+dialog(){
+  this.visible = true;
+}
   async getUsuariosInternos() {
     let usuarios = await this.appService.usuariosInternos(this.vp.token, 0);
     console.log(usuarios.users);
@@ -59,8 +57,7 @@ export class TelaComponent {
     //   });
     //   return;
     // }
- let documentosVersao =[]
-   
+    let documentosVersao = [];
 
     // if(this.vp.listaArquivos.length === 0){
     //   this.messageService.add({
@@ -111,14 +108,14 @@ export class TelaComponent {
       documentosVersao.push(retorno.documentVersionId);
       envelopeDocumentos.push({
         documentVersion: retorno.documentVersionId,
-        envelopePosition: i+1,
+        envelopePosition: i + 1,
       });
       console.log(retorno);
     }
     console.log(documentosVersao);
     const draftEnvelope: envelope = {
       envelopeDraftId: '',
-      name: 'Documento(s) para assinatura',
+      name: this.nomeEnvelope,
       documentsVersions: documentosVersao,
       envelopeDocuments: envelopeDocumentos,
       signers: this.vp.signatarios,
@@ -132,9 +129,12 @@ export class TelaComponent {
       notificateAuthor: this.vp.notificarAutor ? true : false,
     };
     console.log(draftEnvelope);
-    let envelopeDraftId = await this.appService.createEnvelope(draftEnvelope, this.vp.token);
+    let envelopeDraftId = await this.appService.createEnvelope(
+      draftEnvelope,
+      this.vp.token
+    );
     console.log(envelopeDraftId);
-    
+
     // this.vp.listaArquivos = [];
     // this.vp.byteArray = [];
     // this.vp.Buscando_WS = false;
