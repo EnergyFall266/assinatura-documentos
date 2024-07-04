@@ -21,10 +21,44 @@ export class TelaComponent {
     this.getUsuariosInternos();
   }
 dialog(){
+  console.log(this.vp.signatarios);
+  let assinante: boolean = false;
+  this.vp.signatarios.forEach((element) => {
+    if (
+      element.signerType === 'MANDATORY' ||
+      element.signerType === 'PIONEER'
+    ) {
+      assinante = true;
+    }
+  });
+  if (!assinante) {
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Aviso',
+      detail: 'Nenhum signatário selecionado',
+    });
+    return;
+  }
+  if(this.vp.listaArquivos.length === 0){
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Aviso',
+      detail: 'Nenhum arquivo selecionado',
+    });
+    return;
+  }
+  if(this.vp.signatarios.length === 0){
+    this.messageService.add({
+      severity: 'warn',
+      summary: 'Aviso',
+      detail: 'Nenhum signatário selecionado',
+    });
+    return;
+  }
   this.visible = true;
 }
-  async getUsuariosInternos() {
-    let usuarios = await this.appService.usuariosInternos(this.vp.token, 0);
+async getUsuariosInternos() {
+  let usuarios = await this.appService.usuariosInternos(this.vp.token, 0);
     console.log(usuarios.users);
     usuarios.users.forEach((element: any) => {
       this.vp.listaUsuariosInternos.push({
@@ -40,46 +74,13 @@ dialog(){
     this.vp.numeroDeUsuariosInternos = usuarios.listInformation.totalElements;
   }
   async enviar() {
-    console.log(this.vp.signatarios);
-    let assinante: boolean = false;
-    this.vp.signatarios.forEach((element) => {
-      if (
-        element.signerType === 'MANDATORY' ||
-        element.signerType === 'PIONEER'
-      ) {
-        assinante = true;
-      }
-    });
-    // if (!assinante) {
-    //   this.messageService.add({
-    //     severity: 'warn',
-    //     summary: 'Aviso',
-    //     detail: 'Nenhum signatário selecionado',
-    //   });
-    //   return;
-    // }
+ 
     let documentosVersao = [];
 
-    // if(this.vp.listaArquivos.length === 0){
-    //   this.messageService.add({
-    //     severity: 'warn',
-    //     summary: 'Aviso',
-    //     detail: 'Nenhum arquivo selecionado',
-    //   });
-    //   return;
-    // }
-    // if(this.vp.signatarios.length === 0){
-    //   this.messageService.add({
-    //     severity: 'warn',
-    //     summary: 'Aviso',
-    //     detail: 'Nenhum signatário selecionado',
-    //   });
-    //   return;
-    // // }
+    
     console.log(this.vp.user_fullName);
     console.log(this.vp.token);
 
-    // console.log(this.vp.ged_pasta_pai_id);
 
     let paiId = await checkFolder(
       this.vp.token,
@@ -169,5 +170,14 @@ dialog(){
     this.vp.listaArquivos = [];
     this.vp.byteArray = [];
     this.vp.Buscando_WS = false;
+
+    setTimeout(() => {
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Sucesso',
+        detail: 'Envelope enviado com sucesso',
+      }), 5000
+      }
+    );
   }
 }
