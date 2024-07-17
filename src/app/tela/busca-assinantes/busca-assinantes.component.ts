@@ -21,6 +21,7 @@ export class BuscaAssinantesComponent {
   nomeExterno: string = '';
   emailExterno: string = '';
   telefoneExterno: string = '';
+  emailPattern: string = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$';
 
 
   async onPageChange(event: any) {
@@ -83,6 +84,17 @@ export class BuscaAssinantesComponent {
       });
       return;
     }
+
+if(!this.emailExterno.match(this.emailPattern) ? true : false){
+  this.messageService.add({
+    severity: 'warn',
+    summary: 'Aviso',
+    detail: 'Email inválido',
+  });
+  return;
+
+}
+
     if (this.vp.signatarios.length == 0) {
       this.vp.signatarios.push({
         name: this.nomeExterno,

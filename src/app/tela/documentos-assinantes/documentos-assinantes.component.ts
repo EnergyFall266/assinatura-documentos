@@ -49,7 +49,7 @@ export class DocumentosAssinantesComponent {
     { name: 'Assinatura Pioneira', value: 'PIONEER' },
     { name: 'Assinatura em Cópia', value:'RECEIVE_COPY' },
     { name: 'Assinatura em Cópia - Antes de Assinar' , value: 'RECEIVE_COPY_BEFORE_SIGN'},
-    { name: 'Assinatura via Link' },
+
   ];
 
   acaoSelecionada: string = '';
