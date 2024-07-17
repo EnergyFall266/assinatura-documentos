@@ -21,7 +21,6 @@ export class TelaComponent {
     this.getUsuariosInternos();
   }
 dialog(){
-  console.log(this.vp.signatarios);
   let assinante: boolean = false;
   this.vp.signatarios.forEach((element) => {
     if (
@@ -59,7 +58,6 @@ dialog(){
 }
 async getUsuariosInternos() {
   let usuarios = await this.appService.usuariosInternos(this.vp.token, 0);
-    console.log(usuarios.users);
     usuarios.users.forEach((element: any) => {
       this.vp.listaUsuariosInternos.push({
         name: element.fullName,
@@ -70,7 +68,6 @@ async getUsuariosInternos() {
         },
       });
     });
-    console.log(this.vp.listaUsuariosInternos);
     this.vp.numeroDeUsuariosInternos = usuarios.listInformation.totalElements;
   }
   async enviar() {
@@ -78,8 +75,6 @@ async getUsuariosInternos() {
     let documentosVersao = [];
 
     
-    console.log(this.vp.user_fullName);
-    console.log(this.vp.token);
 
 
     let paiId = await checkFolder(
@@ -89,9 +84,6 @@ async getUsuariosInternos() {
     );
     this.vp.ged_pasta_pai_id = paiId;
 
-    console.log(this.vp.ged_pasta_pai_id);
-    console.log(this.vp.listaArquivos);
-    console.log(this.vp.byteArray);
     let envelopeDocumentos: envelopeDocuments[] = [];
     this.vp.Buscando_WS = true;
     for (let i = 0; i < this.vp.listaArquivos.length; i++) {
@@ -112,9 +104,7 @@ async getUsuariosInternos() {
         documentVersion: retorno.documentVersionId,
         envelopePosition: i + 1,
       });
-      console.log(retorno);
     }
-    console.log(documentosVersao);
     const draftEnvelope: envelope = {
       envelopeDraftId: '',
       name: this.nomeEnvelope,
@@ -130,7 +120,6 @@ async getUsuariosInternos() {
       mandatoryView: this.vp.visualizacaoObrigatoria ? true : false,
       notificateAuthor: this.vp.notificarAutor ? true : false,
     };
-    console.log(draftEnvelope);
     let envelopeDraftId = await this.appService.createEnvelope(
       draftEnvelope,
       this.vp.token
@@ -144,11 +133,8 @@ async getUsuariosInternos() {
       });
       return;
     }
-    console.log(envelopeDraftId);
     let send = await this.appService.sendToSign(envelopeDraftId.envelopeDraftId, this.vp.token);
-    console.log(send);
     if (send === undefined) {
-      console.log('Erro ao enviar envelope');
       
       this.vp.Buscando_WS = false;
       setTimeout(() => {

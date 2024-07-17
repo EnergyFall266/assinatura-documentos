@@ -28,14 +28,11 @@ export class AppComponent {
   constructor(private appService: AppService, private pasta: PastaService) {
     this.vp.Buscando_WS = true;
     this.appService.acao$.subscribe((retorno: any) => {
-      console.log(retorno);
 
       let usuario = retorno.fullName;
       this.vp.user_fullName = usuario.split('+').join(' ');
-      console.log(this.vp.user_fullName);
 
       this.vp.token = retorno.access_token;
-      console.log(this.vp.token);
     });
   }
 

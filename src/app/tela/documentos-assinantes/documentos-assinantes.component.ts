@@ -90,13 +90,11 @@ export class DocumentosAssinantesComponent {
       fileUpload.clear();
     } else {
       for (let file of event.files) {
-        console.log(file.name);
 
         adicionado = false;
         this.vp.listaArquivos.forEach((element) => {
           if (element.name == file.name) {
             adicionado = true;
-            console.log(element.name);
           }
         });
         if (adicionado) {
@@ -116,12 +114,10 @@ export class DocumentosAssinantesComponent {
           };
         }
 
-        console.log(this.vp.byteArray);
       }
 
       fileUpload.clear();
     }
-    console.log(this.vp.byteArray);
   }
 
   deleteSigner(signer: any) {

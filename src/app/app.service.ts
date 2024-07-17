@@ -49,11 +49,9 @@ let config = {
 
 try {
   const response = await axios(config);
-  console.log(response.data);
 
   return response.data;
 } catch (error) {
-  console.log(error);
 }
 
 }
@@ -79,11 +77,9 @@ let config = {
 
 try {
   const response = await axios(config);
-  console.log(response.data);
 
   return response.data;
 } catch (error) {
-  console.log(error);
 }
 }
 
@@ -119,11 +115,9 @@ try {
 
     try {
       const response = await axios(config);
-      console.log(response.data);
 
       return response.data;
     } catch (error) {
-      console.log(error);
     }
   }
 }
@@ -131,7 +125,6 @@ try {
 export class PastaService {
 
   async pegarPastas(vp: VP_BPM, pan?: string) {
-    console.log();
     
     const paiId: string = await gedf.checkFolder(
       vp.token,

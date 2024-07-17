@@ -25,16 +25,12 @@ export class BuscaAssinantesComponent {
 
 
   async onPageChange(event: any) {
-    console.log(event);
     let paginaAtual = event.page;
-    console.log(paginaAtual);
     let usuarios = await this.service.usuariosInternos(
       this.vp.token,
       paginaAtual
     );
-    console.log(this.vp.listaUsuariosInternos);
 
-    console.log(usuarios.users);
     this.vp.listaUsuariosInternos = [];
     usuarios.users.forEach((element: any) => {
       this.vp.listaUsuariosInternos.push({
@@ -47,11 +43,8 @@ export class BuscaAssinantesComponent {
       });
     });
     this.vp.numeroDeUsuariosInternos = usuarios.listInformation.totalElements;
-    console.log(this.vp.listaUsuariosInternos);
-    console.log(this.vp.numeroDeUsuariosInternos);
   }
   async buscarUsuarioInterno(event: any) {
-    console.log(event);
     let pesquisa = await this.service.usuariosInternos(this.vp.token, 0, event);
     this.vp.listaUsuariosInternos = [];
     pesquisa.users.forEach((element: any) => {
@@ -131,7 +124,6 @@ if(!this.emailExterno.match(this.emailPattern) ? true : false){
     this.telefoneExterno = '';
   }
   adicionarInterno() {
-    console.log(this.selectedUsuario);
 
     if (this.vp.signatarios.length == 0) {
       this.vp.signatarios.push({
